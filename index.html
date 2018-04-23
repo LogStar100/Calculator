@@ -16,42 +16,68 @@
 
 			.doubleWidth {
 				grid-column-end: span 2;
-				text-align: left;
+				text-align: center;
 			}
 
 			button {
 				padding: 20px 50px 20px 50px;
-				margin: 5px;
 				text-align: center;
+				background-color: #d6d6d8;
+				border-width: 1px;
+				border-color: #504848;
+				border-style: solid;
+				font-size: 2em;
+				font-family: Segoe UI;
+			}
+
+			.orange {
+				background-color: #f88f13;
+				color: white;
+			}
+
+			.result {
+				grid-column-end: span 4;
+				background-color: #1f1f1f;
+				text-align: right;
+				font-size: 4em;
+				font-family: Segoe UI;
+				color: white;
+				padding: 25px 30px;
+			}
+
+			.gray {
+				background-color: #ccc;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="result"></div>
+		
 		<div id="buttons">
-			<button>C</button>
-			<button>±</button>
-			<button>√</button>
-			<button>÷</button>
+			<div class="result">BOOBIES</div>
+
+			<button class="gray">C</button>
+			<button class="gray">±</button>
+			<button class="gray">√</button>
+			<button class="orange">÷</button>
 
 			<button>7</button>
 			<button>8</button>
 			<button>9</button>
-			<button>×</button>
+			<button class="orange">×</button>
 
 			<button>4</button>
 			<button>5</button>
 			<button>6</button>
-			<button>-</button>
+			<button class="orange">-</button>
 
 			<button>1</button>
 			<button>2</button>
 			<button>3</button>
-			<button>+</button>
+			<button class="orange">+</button>
 
 			<button class="doubleWidth">0</button>
 			<button class="special">.</button>
-			<button>=</button>
+			<button class="orange">=</button>
 		</div>
 	</body>
 </html>
