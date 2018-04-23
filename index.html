@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html>
-<body>
 	<head>
 		<title>Calculator | Carlos &amp; Logan</title>
+		<style type="text/css">
+			#buttons {
+				display: grid;
+				width: 60vw;
+				max-width: 750px;
+				grid-template-columns: 1fr 1fr 1fr 1fr;
+			}
+
+			.special {
+				grid-column-start: 3;
+			}
+
+			.doubleWidth {
+				grid-column-end: span 2;
+				text-align: left;
+			}
+
+			button {
+				padding: 20px 50px 20px 50px;
+				margin: 5px;
+				text-align: center;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="result"></div>
 		<div id="buttons">
 			<button>C</button>
 			<button>±</button>
@@ -25,6 +48,10 @@
 			<button>2</button>
 			<button>3</button>
 			<button>+</button>
+
+			<button class="doubleWidth">0</button>
+			<button class="special">.</button>
+			<button>=</button>
 		</div>
 	</body>
 </html>
