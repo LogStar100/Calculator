@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Calculator | Carlos &amp; Logan</title>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
 		<style type="text/css">
 			#buttons {
 				display: grid;
@@ -27,7 +28,8 @@
 				border-color: #504848;
 				border-style: solid;
 				font-size: 2em;
-				font-family: Segoe UI;
+				font-family: Roboto;
+				font-weight: 300;
 			}
 
 			.orange {
@@ -35,12 +37,13 @@
 				color: white;
 			}
 
-			.result {
+			#result {
 				grid-column-end: span 4;
 				background-color: #1f1f1f;
 				text-align: right;
 				font-size: 4em;
-				font-family: Segoe UI;
+				font-family: Roboto;
+				font-weight: 300;
 				color: white;
 				padding: 25px 30px;
 			}
@@ -51,33 +54,215 @@
 		</style>
 	</head>
 	<body>
-		
 		<div id="buttons">
-			<div class="result">BOOBIES</div>
+			<div id="result">0</div>
 
-			<button class="gray">C</button>
-			<button class="gray">±</button>
-			<button class="gray">√</button>
-			<button class="orange">÷</button>
+			<button class="gray" onclick="clearText()">C</button>
+			<button class="gray" onclick="toNegative()">±</button>
+			<button class="gray" onclick="squareRoot()">√</button>
+			<button class="orange" onclick="divide()">÷</button>
 
-			<button>7</button>
-			<button>8</button>
-			<button>9</button>
-			<button class="orange">×</button>
+			<button onclick="addNumber(7)">7</button>
+			<button onclick="addNumber(8)">8</button>
+			<button onclick="addNumber(9)">9</button>
+			<button class="orange" onclick="multiply()">×</button>
 
-			<button>4</button>
-			<button>5</button>
-			<button>6</button>
-			<button class="orange">-</button>
+			<button onclick="addNumber(4)">4</button>
+			<button onclick="addNumber(5)">5</button>
+			<button onclick="addNumber(6)">6</button>
+			<button class="orange" onclick="subtract()">-</button>
 
-			<button>1</button>
-			<button>2</button>
-			<button>3</button>
-			<button class="orange">+</button>
+			<button onclick="addNumber(1)">1</button>
+			<button onclick="addNumber(2)">2</button>
+			<button onclick="addNumber(3)">3</button>
+			<button class="orange" onclick="add()">+</button>
 
-			<button class="doubleWidth">0</button>
-			<button class="special">.</button>
-			<button class="orange">=</button>
+			<button class="doubleWidth" onclick="addNumber(0)">0</button>
+			<button class="special" onclick="addNumber('.')">.</button>
+			<button class="orange equals">=</button>
 		</div>
+
+		<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+			var operationComplete;
+			var shiftDown;
+			console.log('On some older browsers, many errors will accumulate here because of the shift and multiplication detectors. Please ignore, as these do not interfere with the effectiveness of the calculator.')
+
+			function clearText() {
+				var result = 0;
+				document.getElementById('result').innerHTML = result;
+			}
+
+			function toNegative() {
+				var result = document.getElementById('result').innerHTML;
+				var t = -result;
+				document.getElementById('result').innerHTML = t;
+			}
+
+			function squareRoot() {
+				var result = document.getElementById('result').innerHTML;
+				var s = Number(result);
+				var q = Math.sqrt(s);
+				var r = precisionRound(q);
+				document.getElementById('result').innerHTML = r;
+				operationComplete = true;
+			}
+
+			function addNumber(num) {
+				var result = document.getElementById('result').innerHTML;
+				if (operationComplete == true) {
+					result = 0;
+					document.getElementById('result').innerHTML = 0;
+					operationComplete = false;
+					addNumber(num);
+				}
+
+				if (String(num) == '.') {
+					document.getElementById('result').innerHTML = String(result) + '.';
+				} else if (String(result) == 0) {
+					document.getElementById('result').innerHTML = num;
+				}	else {
+					var s = String(result);
+					var q = result + String(num);
+					document.getElementById('result').innerHTML = q;
+				}
+			}
+
+			function deleteNumber() {
+				var result = document.getElementById('result').innerHTML;
+				if (Math.abs(Number(result)) < 10) {
+					document.getElementById('result').innerHTML = '0';
+				} else {
+					result = String(result).slice(0, -1);
+					document.getElementById('result').innerHTML = result;
+				}
+			}
+
+			function precisionRound(number) {
+				for (var i = 0; i <= 9; i++) {
+					if (number - Math.floor(Math.pow(10,i) * number) / Math.pow(10,i) == 0) {
+						 return Math.floor(Math.pow(10,i) * number) / Math.pow(10,i);
+						 break;
+					}
+				}
+				return number.toPrecision(10);
+			}
+
+			function divide() {
+				var numerator = document.getElementById('result').innerHTML;
+				document.getElementById('result').innerHTML = 0;
+				$('.equals').click(
+					function() {
+						var denominator = document.getElementById('result').innerHTML;
+						var quotient = precisionRound(Number(numerator) / Number(denominator));
+						document.getElementById('result').innerHTML = quotient;
+						operationComplete = true;
+						$('.equals').off('click');
+					});
+			}
+
+			function multiply() {
+				var numerator1 = document.getElementById('result').innerHTML;
+				document.getElementById('result').innerHTML = 0;
+				$('.equals').click(
+					function() {
+						var denominator1 = document.getElementById('result').innerHTML;
+						var quotient1 = precisionRound(Number(numerator1) * Number(denominator1));
+						document.getElementById('result').innerHTML = quotient1;
+						operationComplete = true;
+						$('.equals').off('click');
+					});
+			}
+
+			function subtract() {
+				var numerator2 = document.getElementById('result').innerHTML;
+				document.getElementById('result').innerHTML = 0;
+				$('.equals').click(
+					function() {
+						var denominator2 = document.getElementById('result').innerHTML;
+						var quotient2 = precisionRound(Number(numerator2) - Number(denominator2));
+						document.getElementById('result').innerHTML = quotient2;
+						operationComplete = true;
+						$('.equals').off('click');
+					});
+			}
+
+			function add() {
+				var numerator3 = document.getElementById('result').innerHTML;
+				document.getElementById('result').innerHTML = 0;
+				$('.equals').click(
+					function() {
+						var denominator3 = document.getElementById('result').innerHTML;
+						var quotient3 = precisionRound(Number(numerator3) + Number(denominator3));
+						document.getElementById('result').innerHTML = quotient3;
+						operationComplete = true;
+						$('.equals').off('click');
+					});
+			}
+
+			// https://stackoverflow.com/questions/2903991/how-to-detect-ctrlv-ctrlc-using-javascript
+
+			$(document).keydown(function(e) {
+        		if (e.keyCode == 16) shiftDown = true;
+    		}).keyup(function(e) {
+        		if (e.keyCode == 16) shiftDown = false;
+    		});
+
+			window.onkeydown = function(e) {
+				var code = e.keyCode ? e.keyCode : e.which;
+				switch(code) {
+					case 8:
+						deleteNumber();
+						break;
+					case 13:
+						$('.equals').trigger('click');
+						break;
+					case 48:
+						addNumber(0);
+						break;
+					case 49:
+						addNumber(1);
+						break;
+					case 50:
+						addNumber(2);
+						break;
+					case 51:
+						addNumber(3);
+						break;
+					case 52:
+						addNumber(4);
+						break;
+					case 53:
+						addNumber(5);
+						break;
+					case 54:
+						addNumber(6);
+						break;
+					case 55:
+						addNumber(7);
+						break;
+					case 56:
+						addNumber(8);
+						break;
+					case 57:
+						addNumber(9);
+						break;
+					case 189:
+						subtract();
+						break;
+					case 191:
+						divide();
+						break;
+				}
+
+				if (shiftDown && (e.keyCode == 56)) {
+					multiply();
+				}
+
+				if (shiftDown && (e.keyCode == 187)) {
+					add();
+				}
+			};
+		</script>
 	</body>
 </html>
