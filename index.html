@@ -32,9 +32,25 @@
 				font-weight: 300;
 			}
 
+			button:hover {
+				background-color: #f2f2f2;
+			}
+
+		  	button:active {
+		    	background: rgba(201, 201, 201, 0.8);
+		    }
+
 			.orange {
 				background-color: #f88f13;
 				color: white;
+			}
+
+			.orange:hover {
+				background-color: #ffae59;
+			}
+
+			.orange:active {
+			    background: rgba(201, 201, 201, 0.8);
 			}
 
 			#result {
@@ -57,7 +73,7 @@
 		<div id="buttons">
 			<div id="result">0</div>
 
-			<button class="gray" onclick="clearText()">C</button>
+			<button class="gray" id="clear" onclick="clearText()">AC</button>
 			<button class="gray" onclick="toNegative()">±</button>
 			<button class="gray" onclick="squareRoot()">√</button>
 			<button class="orange" onclick="divide()">÷</button>
@@ -90,7 +106,13 @@
 
 			function clearText() {
 				var result = 0;
+
+				if (document.getElementById('clear').innerHTML == 'AC') {
+					location.reload();
+				}
+
 				document.getElementById('result').innerHTML = result;
+				document.getElementById('clear').innerHTML = 'AC';
 			}
 
 			function toNegative() {
@@ -110,6 +132,9 @@
 
 			function addNumber(num) {
 				var result = document.getElementById('result').innerHTML;
+
+				document.getElementById('clear').innerHTML = 'C';
+
 				if (operationComplete == true) {
 					result = 0;
 					document.getElementById('result').innerHTML = 0;
@@ -150,7 +175,7 @@
 
 			function divide() {
 				var numerator = document.getElementById('result').innerHTML;
-				document.getElementById('result').innerHTML = 0;
+				operationComplete = true;
 				$('.equals').click(
 					function() {
 						var denominator = document.getElementById('result').innerHTML;
@@ -163,7 +188,7 @@
 
 			function multiply() {
 				var numerator1 = document.getElementById('result').innerHTML;
-				document.getElementById('result').innerHTML = 0;
+				operationComplete = true;
 				$('.equals').click(
 					function() {
 						var denominator1 = document.getElementById('result').innerHTML;
@@ -176,7 +201,7 @@
 
 			function subtract() {
 				var numerator2 = document.getElementById('result').innerHTML;
-				document.getElementById('result').innerHTML = 0;
+				operationComplete = true;
 				$('.equals').click(
 					function() {
 						var denominator2 = document.getElementById('result').innerHTML;
@@ -189,7 +214,7 @@
 
 			function add() {
 				var numerator3 = document.getElementById('result').innerHTML;
-				document.getElementById('result').innerHTML = 0;
+				operationComplete = true;
 				$('.equals').click(
 					function() {
 						var denominator3 = document.getElementById('result').innerHTML;
@@ -256,6 +281,7 @@
 				}
 
 				if (shiftDown && (e.keyCode == 56)) {
+					deleteNumber();
 					multiply();
 				}
 
