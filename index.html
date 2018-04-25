@@ -123,11 +123,15 @@
 
 			function squareRoot() {
 				var result = document.getElementById('result').innerHTML;
-				var s = Number(result);
-				var q = Math.sqrt(s);
-				var r = precisionRound(q);
-				document.getElementById('result').innerHTML = r;
-				operationComplete = true;
+				if (Number(result) == 1.000000001) {
+					document.getElementById('result').innerHTML = 1;
+				} else {
+					var s = Number(result);
+					var q = Math.sqrt(s);
+					var r = precisionRound(q);
+					document.getElementById('result').innerHTML = r;
+					operationComplete = true;
+				}
 			}
 
 			function addNumber(num) {
@@ -143,8 +147,12 @@
 				}
 
 				if (String(num) == '.') {
-					document.getElementById('result').innerHTML = String(result) + '.';
-				} else if (String(result) == 0) {
+					if (String(result).includes('.')) {
+						document.getElementById('result').innerHTML = String(result);
+					} else {
+						document.getElementById('result').innerHTML = String(result) + '.';
+					}
+				} else if (String(result) == '0') {
 					document.getElementById('result').innerHTML = num;
 				}	else {
 					var s = String(result);
@@ -155,7 +163,9 @@
 
 			function deleteNumber() {
 				var result = document.getElementById('result').innerHTML;
-				if (Math.abs(Number(result)) < 10) {
+				if (Number(result) == 0) {
+					clearText();
+				} else if (Math.abs(Number(result)) < 10) {
 					document.getElementById('result').innerHTML = '0';
 				} else {
 					result = String(result).slice(0, -1);
