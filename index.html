@@ -123,7 +123,7 @@
 
 			function squareRoot() {
 				var result = document.getElementById('result').innerHTML;
-				if (Number(result) == 1.000000001) {
+				if (Number(result) == 1.000000001 || Number(result) == 0.9999999999) {
 					document.getElementById('result').innerHTML = 1;
 				} else {
 					var s = Number(result);
